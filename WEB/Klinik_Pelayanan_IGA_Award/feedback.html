@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback - Klinik Pelayanan Inovasi</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <style>
+        body { background: var(--bg-section-alt); }
+        .page-wrap {
+            max-width: 620px; margin: 0 auto;
+            padding: calc(60px + 2.5rem) clamp(1rem,4vw,2rem) 3rem;
+        }
+        .page-title { text-align: center; margin-bottom: 2rem; }
+        .page-title h1 {
+            font-size: clamp(1.8rem,4vw,2.4rem); font-weight: 800;
+            color: var(--text-dark); margin-bottom: 0.5rem;
+        }
+        .page-title p { color: var(--text-light); font-size: 0.95rem; }
+
+        .fb-card {
+            background: var(--bg-white);
+            border-radius: 20px;
+            padding: clamp(1.5rem,4vw,2.5rem);
+            box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+            border: 1px solid rgba(0,0,0,0.04);
+        }
+
+        .form-group { margin-bottom: 1.25rem; }
+        .form-group label {
+            display: block; font-size: 0.8rem; font-weight: 600;
+            color: var(--text-dark); margin-bottom: 0.4rem;
+            letter-spacing: 0.02em;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%; padding: 0.7rem 1rem;
+            border: 1.5px solid #E2E8F0; border-radius: 10px;
+            font-family: inherit; font-size: 0.88rem;
+            color: var(--text-dark); background: var(--bg-section-alt);
+            transition: all 0.25s ease; outline: none;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            border-color: var(--accent-1);
+            box-shadow: 0 0 0 3px rgba(14,165,233,0.1);
+            background: var(--bg-white);
+        }
+        .form-group textarea { resize: vertical; min-height: 120px; }
+        .form-group input::placeholder, .form-group textarea::placeholder {
+            color: #94A3B8;
+        }
+
+        /* Star Rating */
+        .stars { display: flex; gap: 0.35rem; margin-top: 0.3rem; }
+        .star {
+            font-size: 1.6rem; color: #E2E8F0; cursor: pointer;
+            transition: color 0.2s ease, transform 0.2s ease;
+        }
+        .star:hover, .star.active { color: #FBBF24; transform: scale(1.15); }
+        .star.active { color: #F59E0B; }
+
+        .rating-text {
+            font-size: 0.75rem; color: var(--text-light);
+            margin-top: 0.35rem; min-height: 1.2em;
+        }
+
+        .submit-btn {
+            display: flex; align-items: center; justify-content: center;
+            gap: 0.5rem; width: 100%; padding: 0.85rem;
+            background: var(--accent-1); color: #fff;
+            border: none; border-radius: 12px;
+            font-family: inherit; font-size: 0.9rem; font-weight: 600;
+            cursor: pointer; transition: all 0.25s ease;
+            margin-top: 0.5rem;
+        }
+        .submit-btn:hover {
+            background: var(--accent-2);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 16px rgba(14,165,233,0.3);
+        }
+
+        /* Success state */
+        .success-msg {
+            display: none; text-align: center; padding: 2rem 1rem;
+        }
+        .success-msg.show { display: block; }
+        .success-msg .check-circle {
+            width: 72px; height: 72px; border-radius: 50%;
+            background: linear-gradient(135deg, #ECFDF5, #D1FAE5);
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 1.25rem; font-size: 1.8rem; color: var(--accent-3);
+        }
+        .success-msg h2 { font-size: 1.3rem; color: var(--text-dark); margin-bottom: 0.5rem; }
+        .success-msg p { color: var(--text-light); font-size: 0.9rem; }
+        .success-msg .back-btn {
+            display: inline-flex; align-items: center; gap: 0.4rem;
+            margin-top: 1.25rem; padding: 0.6rem 1.25rem;
+            background: var(--accent-1); color: #fff;
+            border-radius: 10px; text-decoration: none;
+            font-size: 0.85rem; font-weight: 600;
+            transition: 0.2s;
+        }
+        .success-msg .back-btn:hover { background: var(--accent-2); }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="Media/logo-medan.gif" alt="Logo Pemko" class="logo-img">
+            <img src="Media/Brida logo.png" alt="Logo BRIDA" class="logo-img">
+            <span>IGA<strong>Clinic</strong></span>
+        </div>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html">Beranda</a></li>
+            <li><a href="index.html#layanan">Layanan</a></li>
+            <li><a href="index.html#galeri">Galeri</a></li>
+            <li><a href="index.html#indikator">Indikator</a></li>
+            <li><a href="index.html#faq">FAQ</a></li>
+            <li><a href="feedback.html">Feedback</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" onclick="event.preventDefault(); this.parentElement.classList.toggle('open')">Download <i class="fas fa-chevron-down" style="font-size:0.6rem;margin-left:0.2rem"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a href="downloads/SOP_IGA.pdf" target="_blank">SOP</a></li>
+                    <li><a href="downloads/Modul_IGA.pdf" target="_blank">Modul</a></li>
+                    <li><a href="downloads/Pengumuman_IGA.pdf" target="_blank">Pengumuman</a></li>
+                    <li><a href="downloads/Template_Bukti_Dukung.xlsx" target="_blank">Template Bukti Dukung</a></li>
+                </ul>
+            </li>
+        </ul>
+        <div class="hamburger" onclick="document.getElementById('navLinks').classList.toggle('active')">
+            <span></span><span></span><span></span>
+        </div>
+        <a href="kalkulator.html" class="btn" style="background:var(--accent-3);color:#fff;"><i class="fas fa-calculator"></i> Kalkulator</a>
+    </nav>
+
+    <div class="page-wrap">
+        <div class="page-title">
+            <h1><i class="fas fa-comment-dots" style="color:var(--accent-1)"></i> Feedback</h1>
+            <p>Berikan masukan dan saran untuk meningkatkan layanan Klinik Pelayanan Inovasi</p>
+        </div>
+
+        <div class="fb-card">
+            <form id="fbForm" onsubmit="submitFeedback(event)">
+                <div class="form-group">
+                    <label>Nama Lengkap</label>
+                    <input type="text" placeholder="Masukkan nama Anda" required>
+                </div>
+                <div class="form-group">
+                    <label>Perangkat Daerah / Instansi</label>
+                    <input type="text" placeholder="Contoh: Dinas Kesehatan Kota Medan">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" placeholder="email@contoh.com">
+                </div>
+                <div class="form-group">
+                    <label>Layanan yang Digunakan</label>
+                    <select>
+                        <option value="">— Pilih layanan —</option>
+                        <option>Konsultasi Tatap Muka</option>
+                        <option>Pendampingan Virtual</option>
+                        <option>Review Dokumen & Evidensi</option>
+                        <option>Coaching Clinic</option>
+                        <option>Layanan Hotline 24/7</option>
+                        <option>Portal Web / Kalkulator</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Rating Layanan</label>
+                    <div class="stars" id="stars">
+                        <span class="star" data-val="1" onclick="rate(1)">&#9733;</span>
+                        <span class="star" data-val="2" onclick="rate(2)">&#9733;</span>
+                        <span class="star" data-val="3" onclick="rate(3)">&#9733;</span>
+                        <span class="star" data-val="4" onclick="rate(4)">&#9733;</span>
+                        <span class="star" data-val="5" onclick="rate(5)">&#9733;</span>
+                    </div>
+                    <div class="rating-text" id="ratingText"></div>
+                </div>
+                <div class="form-group">
+                    <label>Masukan / Saran</label>
+                    <textarea placeholder="Tuliskan masukan, saran, atau kendala yang Anda alami..." required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-paper-plane"></i> Kirim Feedback
+                </button>
+            </form>
+
+            <div class="success-msg" id="successMsg">
+                <div class="check-circle"><i class="fas fa-check"></i></div>
+                <h2>Terima Kasih!</h2>
+                <p>Feedback Anda telah berhasil dikirim. Masukan Anda sangat berarti untuk peningkatan layanan kami.</p>
+                <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Kembali ke Beranda</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <div class="footer-logo"><img src="Media/logo-medan.gif" alt="Logo" class="footer-logo-img"><img src="Media/Brida logo.png" alt="Logo" class="footer-logo-img"><span>IGA<strong>Clinic</strong></span></div>
+                    <div class="footer-org">Badan Riset dan Inovasi Daerah Kota Medan</div>
+                    <p>Platform pendampingan dan konsultasi inovasi daerah terpadu.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Kontak</h4>
+                    <ul class="footer-contact">
+                        <li><i class="fas fa-map-marker-alt"></i> Jl. Jenderal Besar A.H. Nasution No. 32 Medan</li>
+                        <li><i class="fas fa-envelope"></i> <a href="mailto:brida@medan.go.id">brida@medan.go.id</a></li>
+                        <li><i class="fas fa-phone"></i> <a href="tel:0617873439">(061) 7873439</a></li>
+                        <li><i class="fab fa-whatsapp"></i> <a href="https://wa.me/6282365652401" target="_blank">+62 823-6565-2401</a></li>
+                    </ul>
+                    <div class="footer-social">
+                        <a href="#" class="fb"><i class="fab fa-facebook-f"></i></a><a href="#" class="tw"><i class="fab fa-twitter"></i></a><a href="#" class="ig"><i class="fab fa-instagram"></i></a><a href="#" class="yt"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Halaman</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html"><i class="fas fa-chevron-right"></i> Beranda</a></li>
+                        <li><a href="kalkulator.html"><i class="fas fa-chevron-right"></i> Kalkulator</a></li>
+                        <li><a href="index.html#faq"><i class="fas fa-chevron-right"></i> FAQ</a></li>
+                        <li><a href="feedback.html"><i class="fas fa-chevron-right"></i> Feedback</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">&copy; 2026 BRIDA Kota Medan - Klinik Pelayanan Inovasi.</div>
+        </div>
+    </footer>
+
+    <script>
+    let rating = 0;
+    const labels = ['', 'Sangat Buruk', 'Buruk', 'Cukup', 'Baik', 'Sangat Baik'];
+
+    function rate(val) {
+        rating = val;
+        document.querySelectorAll('.star').forEach(s => {
+            s.classList.toggle('active', parseInt(s.dataset.val) <= val);
+        });
+        document.getElementById('ratingText').textContent = labels[val];
+    }
+
+    function submitFeedback(e) {
+        e.preventDefault();
+        document.getElementById('fbForm').style.display = 'none';
+        document.getElementById('successMsg').classList.add('show');
+    }
+    </script>
+</body>
+</html>

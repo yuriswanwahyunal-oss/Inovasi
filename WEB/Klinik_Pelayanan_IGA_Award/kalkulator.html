@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kalkulator Skor IGA Award</title>
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+<style>
+body { background: linear-gradient(160deg, #E0F2FE 0%, #F0F9FF 30%, #F8FAFC 60%, #ECFDF5 100%); min-height: 100vh; }
+
+.calc-page {
+    padding: calc(60px + 1.5rem) 1rem 3rem;
+    max-width: 580px; margin: 0 auto;
+}
+
+/* ===== SCORE STRIP (inside calc-box) ===== */
+.score-strip {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 1rem 1.25rem;
+    background: linear-gradient(135deg, #0F172A, #1E3A5F);
+    color: #fff;
+}
+.score-strip .ss-ring {
+    position: relative; width: 48px; height: 48px; flex-shrink: 0;
+}
+.score-strip .ss-ring svg {
+    transform: rotate(-90deg); width: 48px; height: 48px;
+}
+.score-strip .ss-ring .track { fill: none; stroke: rgba(255,255,255,0.15); stroke-width: 5; }
+.score-strip .ss-ring .progress {
+    fill: none; stroke: #38BDF8; stroke-width: 5; stroke-linecap: round;
+    transition: stroke-dashoffset 0.6s cubic-bezier(0.4,0,0.2,1), stroke 0.4s ease;
+}
+.score-strip .ss-ring .center-text {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.85rem; font-weight: 800; color: #fff;
+}
+.score-strip .ss-info { flex: 1; min-width: 0; }
+.score-strip .ss-title {
+    font-size: 0.65rem; font-weight: 600; color: rgba(255,255,255,0.6);
+    text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.3rem;
+}
+.score-strip .ss-bar-track {
+    width: 100%; height: 5px; background: rgba(255,255,255,0.15);
+    border-radius: 3px; overflow: hidden; margin-bottom: 0.3rem;
+}
+.score-strip .ss-bar-fill {
+    height: 100%; border-radius: 3px; background: #38BDF8; width: 0%;
+    transition: width 0.6s cubic-bezier(0.4,0,0.2,1), background 0.4s ease;
+}
+.score-strip .ss-detail {
+    font-size: 0.65rem; color: rgba(255,255,255,0.5);
+}
+.score-strip .ss-detail span { color: rgba(255,255,255,0.8); font-weight: 600; }
+
+/* ===== CALCULATOR BOX ===== */
+.calc-box {
+    background: var(--bg-white);
+    border-radius: 20px;
+    box-shadow: 0 4px 30px rgba(0,0,0,0.07), 0 1px 3px rgba(0,0,0,0.04);
+    padding: 0;
+    margin-top: 0;
+    overflow: hidden;
+    border: 1px solid rgba(0,0,0,0.04);
+}
+
+/* Navigation Header */
+.calc-nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--border-light);
+    background: linear-gradient(180deg, #FAFCFF 0%, var(--bg-white) 100%);
+}
+
+.nav-arrow {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--bg-section-alt);
+    border: 1px solid var(--border-light);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: var(--text-body);
+    font-size: 0.85rem;
+}
+.nav-arrow:hover {
+    background: var(--accent-1); color: #fff;
+    border-color: var(--accent-1);
+    transform: scale(1.08);
+    box-shadow: 0 3px 12px rgba(14,165,233,0.25);
+}
+.nav-arrow:active { transform: scale(0.96); }
+
+.nav-center {
+    flex: 1; text-align: center; min-width: 0;
+}
+
+/* Pagination Dots */
+.page-dots {
+    display: flex; justify-content: center; gap: 5px;
+    margin-bottom: 0.4rem;
+}
+.page-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: #E2E8F0; transition: all 0.3s ease;
+    cursor: pointer;
+}
+.page-dot.active { background: var(--accent-1); transform: scale(1.3); }
+.page-dot.filled { background: var(--accent-3); }
+.page-dot.filled.active { background: var(--accent-1); }
+
+.nav-counter {
+    font-size: 0.7rem; font-weight: 600; color: var(--text-light);
+    letter-spacing: 0.03em;
+}
+
+/* Indicator Content */
+.ind-content {
+    padding: 1.5rem 1.5rem 0.5rem;
+    text-align: center;
+    transition: opacity 0.25s ease;
+}
+
+.ind-bubble {
+    width: 72px; height: 72px; border-radius: 50%;
+    margin: 0 auto 1rem;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    background: linear-gradient(135deg, #F0F9FF, #E0F2FE);
+    border: 2px solid #BAE6FD;
+    transition: all 0.4s ease;
+}
+.ind-bubble.filled {
+    background: linear-gradient(135deg, #ECFDF5, #D1FAE5);
+    border-color: #6EE7B7;
+}
+.ind-bubble .ib-num {
+    font-size: 1.1rem; font-weight: 800; color: var(--accent-2); line-height: 1;
+}
+.ind-bubble.filled .ib-num { color: var(--accent-3); }
+.ind-bubble .ib-pts {
+    font-size: 0.55rem; font-weight: 600; color: var(--text-light); margin-top: 2px;
+}
+
+.ind-name {
+    font-size: 1.05rem; font-weight: 700; color: var(--text-dark);
+    margin-bottom: 0.25rem;
+}
+.ind-var {
+    font-size: 0.75rem; color: var(--text-light); margin-bottom: 0.15rem;
+}
+.ind-bobot {
+    font-size: 0.7rem; font-weight: 600; color: var(--accent-2);
+    margin-bottom: 0.25rem;
+}
+
+/* Bar Chart */
+.bars-area {
+    padding: 1rem 1.5rem 1.5rem;
+}
+.bars-title {
+    font-size: 0.6rem; font-weight: 700; color: var(--text-light);
+    text-transform: uppercase; letter-spacing: 0.08em;
+    margin-bottom: 0.75rem; text-align: left;
+}
+
+.bar-item {
+    cursor: pointer; transition: all 0.25s ease;
+    border-radius: 10px; padding: 0.75rem 1rem;
+    margin-bottom: 0.5rem;
+    border: 1.5px solid transparent;
+    background: var(--bg-section-alt);
+}
+.bar-item:hover { background: #E8F4FD; border-color: #BAE6FD; }
+.bar-item.selected {
+    border-color: var(--accent-1); background: rgba(14,165,233,0.06);
+    box-shadow: 0 2px 10px rgba(14,165,233,0.1);
+}
+
+.bar-top {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 0.4rem;
+}
+.bar-tag {
+    font-size: 0.62rem; font-weight: 700; color: var(--accent-2);
+    text-transform: uppercase; letter-spacing: 0.04em;
+}
+.bar-pts {
+    font-size: 0.78rem; font-weight: 700; color: #CBD5E1;
+    transition: color 0.3s ease;
+}
+.bar-item.selected .bar-pts { color: var(--accent-1); }
+
+.bar-track {
+    width: 100%; height: 8px; background: #E2E8F0;
+    border-radius: 4px; overflow: hidden; margin-bottom: 0.4rem;
+}
+.bar-fill {
+    height: 100%; border-radius: 4px; background: #CBD5E1;
+    transition: width 0.5s cubic-bezier(0.4,0,0.2,1), background 0.3s ease;
+}
+.bar-item.selected .bar-fill { background: var(--accent-1); }
+
+.bar-desc {
+    font-size: 0.78rem; color: var(--text-body); line-height: 1.45; text-align: left;
+}
+.bar-item.selected .bar-desc { color: var(--text-dark); font-weight: 500; }
+
+.bar-reset {
+    text-align: center; padding: 0.5rem;
+    font-size: 0.72rem; color: var(--text-light);
+    cursor: pointer; border-radius: 8px;
+    transition: all 0.2s ease;
+    border: 1px dashed #E2E8F0;
+}
+.bar-reset:hover { color: #EF4444; border-color: #FECACA; background: #FEF2F2; }
+
+/* Keyboard hint */
+.key-hint {
+    text-align: center; padding: 0.75rem;
+    font-size: 0.65rem; color: var(--text-light);
+}
+.key-hint kbd {
+    display: inline-block; padding: 0.15rem 0.4rem;
+    background: #F1F5F9; border: 1px solid #E2E8F0;
+    border-radius: 4px; font-size: 0.6rem; font-family: inherit; font-weight: 600;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .calc-page { padding-left: 0.5rem; padding-right: 0.5rem; }
+    .score-strip { flex-wrap: wrap; }
+    .ind-content { padding: 1rem 1rem 0.5rem; }
+    .bars-area { padding: 0.75rem 1rem 1.25rem; }
+    .page-dots { gap: 4px; }
+    .page-dot { width: 6px; height: 6px; }
+}
+</style>
+</head>
+<body>
+<nav class="navbar">
+    <div class="logo">
+        <img src="Media/logo-medan.gif" alt="Logo Pemko" class="logo-img">
+        <img src="Media/Brida logo.png" alt="Logo BRIDA" class="logo-img">
+        <span>IGA<strong>Clinic</strong></span>
+    </div>
+    <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Beranda</a></li>
+        <li><a href="index.html#layanan">Layanan</a></li>
+        <li><a href="index.html#galeri">Galeri</a></li>
+        <li><a href="index.html#indikator">Indikator</a></li>
+        <li><a href="index.html#faq">FAQ</a></li>
+        <li><a href="feedback.html">Feedback</a></li>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" onclick="event.preventDefault(); this.parentElement.classList.toggle('open')">Download <i class="fas fa-chevron-down" style="font-size:0.6rem;margin-left:0.2rem"></i></a>
+            <ul class="dropdown-menu">
+                <li><a href="downloads/SOP_IGA.pdf" target="_blank">SOP</a></li>
+                <li><a href="downloads/Modul_IGA.pdf" target="_blank">Modul</a></li>
+                <li><a href="downloads/Pengumuman_IGA.pdf" target="_blank">Pengumuman</a></li>
+                <li><a href="downloads/Template_Bukti_Dukung.xlsx" target="_blank">Template Bukti Dukung</a></li>
+            </ul>
+        </li>
+    </ul>
+    <div class="hamburger" onclick="document.getElementById('navLinks').classList.toggle('active')">
+        <span></span><span></span><span></span>
+    </div>
+    <a href="kalkulator.html" class="btn" style="background:var(--accent-3);color:#fff;"><i class="fas fa-calculator"></i> Kalkulator</a>
+</nav>
+
+<div class="calc-page">
+
+
+    <!-- Calculator Box -->
+    <div class="calc-box">
+        <!-- Score Strip -->
+        <div class="score-strip">
+            <div class="ss-ring">
+                <svg viewBox="0 0 48 48">
+                    <circle class="track" cx="24" cy="24" r="20"></circle>
+                    <circle class="progress" id="ringProg" cx="24" cy="24" r="20"
+                            stroke-dasharray="125.66" stroke-dashoffset="125.66"></circle>
+                </svg>
+                <div class="center-text" id="scoreNum">0</div>
+            </div>
+            <div class="ss-info">
+                <div class="ss-title">Skor Satuan Inovasi Daerah</div>
+                <div class="ss-bar-track"><div class="ss-bar-fill" id="scoreBar"></div></div>
+                <div class="ss-detail"><span id="filledCount">0</span>/20 terisi &middot; <span id="pctVal">0%</span></div>
+            </div>
+        </div>
+        <!-- Nav -->
+        <div class="calc-nav">
+            <div class="nav-arrow" onclick="nav(-1)"><i class="fas fa-chevron-left"></i></div>
+            <div class="nav-center">
+                <div class="page-dots" id="pageDots"></div>
+                <div class="nav-counter" id="navCounter">1 / 20</div>
+            </div>
+            <div class="nav-arrow" onclick="nav(1)"><i class="fas fa-chevron-right"></i></div>
+        </div>
+        <div id="indContent" class="ind-content"></div>
+        <div id="barsArea" class="bars-area"></div>
+        <div class="key-hint"><kbd>&larr;</kbd> <kbd>&rarr;</kbd> untuk navigasi &middot; <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd> untuk pilih parameter</div>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-content">
+        <div class="footer-top">
+            <div class="footer-brand">
+                <div class="footer-logo">
+                    <img src="Media/logo-medan.gif" alt="Logo" class="footer-logo-img">
+                    <img src="Media/Brida logo.png" alt="Logo" class="footer-logo-img">
+                    <span>IGA<strong>Clinic</strong></span>
+                </div>
+                <div class="footer-org">Badan Riset dan Inovasi Daerah Kota Medan</div>
+                <p>Platform pendampingan dan konsultasi inovasi daerah terpadu.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Kontak</h4>
+                <ul class="footer-contact">
+                    <li><i class="fas fa-map-marker-alt"></i> Jl. Jenderal Besar A.H. Nasution No. 32 Medan</li>
+                    <li><i class="fas fa-envelope"></i> <a href="mailto:brida@medan.go.id">brida@medan.go.id</a></li>
+                    <li><i class="fas fa-phone"></i> <a href="tel:0617873439">(061) 7873439</a></li>
+                    <li><i class="fab fa-whatsapp"></i> <a href="https://wa.me/6282365652401" target="_blank">+62 823-6565-2401</a></li>
+                </ul>
+                <div class="footer-social">
+                    <a href="#" class="fb"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="tw"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="ig"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="yt"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Halaman</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html"><i class="fas fa-chevron-right"></i> Beranda</a></li>
+                    <li><a href="kalkulator.html"><i class="fas fa-chevron-right"></i> Kalkulator</a></li>
+                    <li><a href="faq.html"><i class="fas fa-chevron-right"></i> FAQ</a></li>
+                    <li><a href="feedback.html"><i class="fas fa-chevron-right"></i> Feedback</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">&copy; 2026 BRIDA Kota Medan - Klinik Pelayanan Inovasi.</div>
+    </div>
+</footer>
+
+<script>
+const MAX = 111;
+const data = [
+  {
+    "id": 16,
+    "name": "Regulasi Inovasi Daerah",
+    "bobot": 3.0,
+    "variabel": "Infrastruktur",
+    "p1": "SK Kepala Daerah atau Keputusan yang ditandatangani oleh Kepala Perangkat Daerah atas nama...",
+    "p2": "Peraturan Kepala Daerah",
+    "p3": "Peraturan Daerah"
+  },
+  {
+    "id": 17,
+    "name": "Ketersediaan SDM terhadap inovasi daerah",
+    "bobot": 2.0,
+    "variabel": "Infrastruktur",
+    "p1": "1-10 SDM",
+    "p2": "11-30 SDM",
+    "p3": "Lebih dari 30"
+  },
+  {
+    "id": 18,
+    "name": "Dukungan anggaran",
+    "bobot": 2.0,
+    "variabel": "Infrastruktur",
+    "p1": "Anggaran dialokasikan pada kegiatan penerapan inovasi pada salah satu tahun anggaran (T-2/...",
+    "p2": "Anggaran dialokasikan pada kegiatan penerapan inovasi pada dua tahun berturut-turut (T-1 d...",
+    "p3": "Anggaran dialokasikan pada kegiatan penerapan inovasi di T-0, T-1 dan T-2"
+  },
+  {
+    "id": 19,
+    "name": "Alat Kerja",
+    "bobot": 2.0,
+    "variabel": "Kecanggihan Produk",
+    "p1": "Pelaksanaan kerja secara manual/non elektronik",
+    "p2": "Pelaksanaan kerja didukung dengan perangkat elektronik",
+    "p3": "Pelaksanaan kerja sudah didukung sistem informasi online/daring/ Artificial Intelligence"
+  },
+  {
+    "id": 20,
+    "name": "Bimtek inovasi",
+    "bobot": 1.0,
+    "variabel": "Infrastruktur",
+    "p1": "Dalam 2 tahun terakhir pernah 1 kali kegiatan transfer pengetahuan (bimtek, sharing, FGD, ...",
+    "p2": "Dalam 2 tahun terakhir pernah 2 kali bimtek (bimtek, training dan TOT)",
+    "p3": "Dalam 2 tahun terakhir pernah lebih dari 2 kali bimtek (bimtek, training dan TOT)"
+  },
+  {
+    "id": 21,
+    "name": "Integrasi Program Dan Kegiatan Inovasi Dalam RKPD",
+    "bobot": 2.0,
+    "variabel": "Infrastruktur",
+    "p1": "Pemerintah daerah sudah menuangkan program inovasi daerah dalam RKPD T-1 atau T-2",
+    "p2": "Pemerintah daerah sudah menuangkan program inovasi daerah dalam RKPD T-1 dan T-2",
+    "p3": "Pemerintah daerah sudah menuangkan program inovasi daerah dalam RKPD T-1, T-2 dan T0 (T0 a..."
+  },
+  {
+    "id": 22,
+    "name": "Keterlibatan aktor inovasi",
+    "bobot": 1.0,
+    "variabel": "Output Pengetahuan dan Teknologi",
+    "p1": "Inovasi melibatkan 3 Aktor",
+    "p2": "Inovasi melibatkan 4 Aktor",
+    "p3": "Inovasi melibatkan 5 Aktor atau lebih"
+  },
+  {
+    "id": 23,
+    "name": "Pelaksana inovasi daerah",
+    "bobot": 1.0,
+    "variabel": "Output Pengetahuan dan Teknologi",
+    "p1": "Ada pelaksana namun tidak ditetapkan dengan Surat Penugasan Kepala Perangkat Daerah atau S...",
+    "p2": "Ada pelaksana dan ditetapkan dengan Surat Penugasan atau Surat Perintah Kepala Perangkat D...",
+    "p3": "Ada pelaksana dan ditetapkan dengan SK/Surat Penugasan/Surat Perintah Kepala Daerah"
+  },
+  {
+    "id": 24,
+    "name": "Jejaring inovasi",
+    "bobot": 1.0,
+    "variabel": "Output Pengetahuan dan Teknologi",
+    "p1": "Inovasi melibatkan 1-2 Perangkat Daerah",
+    "p2": "Inovasi melibatkan 3-4 Perangkat Daerah",
+    "p3": "Inovasi melibatkan 5 Perangkat Daerah atau lebih"
+  },
+  {
+    "id": 25,
+    "name": "Sosialisasi Inovasi Daerah",
+    "bobot": 1.0,
+    "variabel": "Output Pengetahuan dan Teknologi",
+    "p1": "Sosialisasi tatap muka baik secara langsung ataupun virtual (luring/daring) atau sosialisa...",
+    "p2": "Konten melalui Media Sosial atau pemberitaan yang dikeluarkan oleh pemda",
+    "p3": "Media Berita"
+  },
+  {
+    "id": 26,
+    "name": "Pedoman teknis",
+    "bobot": 1.0,
+    "variabel": "Kecepatan Bisnis Proses",
+    "p1": "Telah terdapat Pedoman teknis berupa buku manual",
+    "p2": "Telah terdapat Pedoman teknis berupa buku dalam bentuk elektronik",
+    "p3": "Telah terdapat Pedoman teknis berupa buku yang dapat diakses secara online"
+  },
+  {
+    "id": 27,
+    "name": "Kemudahan informasi layanan",
+    "bobot": 1.0,
+    "variabel": "Kecepatan Bisnis Proses",
+    "p1": "Informasi layanan diperoleh melalui 1 dari 4 metode",
+    "p2": "Informasi layanan diperoleh melalui 2 dari 4 metode",
+    "p3": "Informasi layanan diperoleh melalui 3 atau lebih metode"
+  },
+  {
+    "id": 28,
+    "name": "Kemudahan proses inovasi yang dihasilkan",
+    "bobot": 2.0,
+    "variabel": "Kecepatan Bisnis Proses",
+    "p1": "Hasil inovasi diperoleh dalam waktu 6 hari atau lebih",
+    "p2": "Hasil inovasi diperoleh dalam waktu 2-5 hari",
+    "p3": "Hasil inovasi diperoleh dalam waktu 1 hari"
+  },
+  {
+    "id": 29,
+    "name": "Penyelesaian layanan pengaduan",
+    "bobot": 1.0,
+    "variabel": "Kecepatan Bisnis Proses",
+    "p1": "≤ 50% atau Tidak ada pengaduan",
+    "p2": "51% s.d 90%",
+    "p3": "≥91%"
+  },
+  {
+    "id": 30,
+    "name": "Layanan Terintegrasi",
+    "bobot": 2.0,
+    "variabel": "Kecanggihan Produk",
+    "p1": "Ada dukungan melalui informasi website/sosial media/web aplikasi/aplikasi mobile (android ...",
+    "p2": "Ada dukungan melalui informasi website, sosial media, web aplikasi atau aplikasi mobile (a...",
+    "p3": "Ada dukungan melalui web aplikasi atau aplikasi mobile (android atau ios) yang layanan sud..."
+  },
+  {
+    "id": 31,
+    "name": "Replikasi",
+    "bobot": 3.0,
+    "variabel": "Kecanggihan Produk",
+    "p1": "Pernah 1 Kali direplikasi di daerah lain",
+    "p2": "Pernah 2 Kali direplikasi di daerah lain yang berbeda",
+    "p3": "Pernah 3 Kali direplikasi di daerah lain yang berbeda"
+  },
+  {
+    "id": 32,
+    "name": "Kecepatan penciptaan inovasi",
+    "bobot": 2.0,
+    "variabel": "Kecepatan Bisnis Proses",
+    "p1": "Inovasi dapat diciptakan dalam waktu 9 bulan atau lebih",
+    "p2": "Inovasi dapat diciptakan dalam waktu 5-8 bulan",
+    "p3": "Inovasi dapat diciptakan dalam waktu 1-4 bulan"
+  },
+  {
+    "id": 33,
+    "name": "Kemanfaatan inovasi",
+    "bobot": 3.0,
+    "variabel": "Jumlah Inovasi dan Hasil Kreatif",
+    "p1": "a. Cakupan penerima manfaat 1-200 orang",
+    "p2": "a. Cakupan penerima manfaat 201-500 orang",
+    "p3": "a. Cakupan penerima manfaat 501 orang atau lebih"
+  },
+  {
+    "id": 34,
+    "name": "Monitoring dan Evaluasi Inovasi Daerah",
+    "bobot": 2.0,
+    "variabel": "Jumlah Inovasi dan Hasil Kreatif",
+    "p1": "Hasil laporan monev internal pemerintah daerah",
+    "p2": "Laporan hasil pengukuran kepuasaan pengguna dari evaluasi Survei Kepuasan Masyarakat",
+    "p3": "Hasil laporan monev eksternal berdasarkan hasil penelitian/kajian/ analisis"
+  },
+  {
+    "id": 35,
+    "name": "Kualitas inovasi daerah",
+    "bobot": 4.0,
+    "variabel": "Jumlah Inovasi dan Hasil Kreatif",
+    "p1": "Memenuhi 1 atau 2 unsur substansi",
+    "p2": "Memenuhi 3 atau 4 unsur substansi",
+    "p3": "Memenuhi 5 unsur substansi"
+  }
+];
+const sel = {};
+let idx = 0;
+
+data.forEach(d => sel[d.id] = 0);
+
+function color(pct) {
+    if (pct >= 80) return '#10B981';
+    if (pct >= 50) return '#F59E0B';
+    if (pct > 0) return '#0EA5E9';
+    return '#CBD5E1';
+}
+
+function animNum(el, from, to, ms) {
+    const t0 = performance.now();
+    (function tick(now) {
+        const p = Math.min((now-t0)/ms, 1);
+        el.textContent = Math.round(from + (to-from)*(1-Math.pow(1-p,3)));
+        if (p < 1) requestAnimationFrame(tick);
+    })(t0);
+}
+
+function refreshScore() {
+    let total = 0, filled = 0;
+    data.forEach(d => { const v=sel[d.id]||0; total+=v*d.bobot; if(v>0)filled++; });
+    const pct = (total/MAX)*100;
+    const c = color(pct);
+    const circ = 2*Math.PI*20;
+    document.getElementById('ringProg').style.strokeDashoffset = circ-(pct/100)*circ;
+    document.getElementById('ringProg').style.stroke = c;
+    const el = document.getElementById('scoreNum');
+    animNum(el, parseFloat(el.textContent)||0, total, 500);
+    document.getElementById('scoreBar').style.width = pct+'%';
+    document.getElementById('scoreBar').style.background = c;
+    document.getElementById('filledCount').textContent = filled;
+    document.getElementById('pctVal').textContent = Math.round(pct)+'%';
+}
+
+function buildDots() {
+    const dotsEl = document.getElementById('pageDots');
+    dotsEl.innerHTML = '';
+    data.forEach((d,i) => {
+        const dot = document.createElement('div');
+        dot.className = 'page-dot';
+        if (i === idx) dot.classList.add('active');
+        if (sel[d.id] > 0) dot.classList.add('filled');
+        dot.onclick = () => { idx = i; render(); };
+        dotsEl.appendChild(dot);
+    });
+}
+
+function render() {
+    const d = data[idx];
+    const v = sel[d.id] || 0;
+    const maxBar = 3 * d.bobot;
+    const displayNum = idx + 1;
+
+    // Counter
+    document.getElementById('navCounter').textContent = (idx+1) + ' / ' + data.length;
+
+    // Dots
+    buildDots();
+
+    // Content
+    const content = document.getElementById('indContent');
+    content.style.opacity = '0';
+    setTimeout(() => {
+        content.innerHTML = `
+            <div class="ind-bubble ${v>0?'filled':''}">
+                <div class="ib-num">${displayNum}</div>
+                <div class="ib-pts">${v>0?(v*d.bobot).toFixed(0)+' pts':'—'}</div>
+            </div>
+            <div class="ind-name">${d.name}</div>
+            <div class="ind-var">${d.variabel}</div>
+            <div class="ind-bobot">Bobot Pengali: ${d.bobot}</div>
+        `;
+        content.style.opacity = '1';
+    }, 80);
+
+    // Bars
+    const bars = document.getElementById('barsArea');
+    bars.innerHTML = `
+        <div class="bars-title">Pilih Parameter</div>
+        <div class="bar-item ${v===1?'selected':''}" onclick="pick(1)">
+            <div class="bar-top"><span class="bar-tag">Parameter 1</span><span class="bar-pts">${Math.round(1*d.bobot)} poin</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:${(1*d.bobot/maxBar)*100}%"></div></div>
+            <div class="bar-desc">${d.p1}</div>
+        </div>
+        <div class="bar-item ${v===2?'selected':''}" onclick="pick(2)">
+            <div class="bar-top"><span class="bar-tag">Parameter 2</span><span class="bar-pts">${Math.round(2*d.bobot)} poin</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:${(2*d.bobot/maxBar)*100}%"></div></div>
+            <div class="bar-desc">${d.p2}</div>
+        </div>
+        <div class="bar-item ${v===3?'selected':''}" onclick="pick(3)">
+            <div class="bar-top"><span class="bar-tag">Parameter 3</span><span class="bar-pts">${Math.round(3*d.bobot)} poin</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:100%"></div></div>
+            <div class="bar-desc">${d.p3}</div>
+        </div>
+        <div class="bar-reset" onclick="pick(0)"><i class="fas fa-undo"></i> Reset</div>
+    `;
+
+    refreshScore();
+}
+
+function pick(val) {
+    sel[data[idx].id] = val;
+    render();
+}
+
+function nav(dir) {
+    idx = (idx + dir + data.length) % data.length;
+    render();
+}
+
+// Keyboard support
+document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft') nav(-1);
+    else if (e.key === 'ArrowRight') nav(1);
+    else if (e.key === '1') pick(1);
+    else if (e.key === '2') pick(2);
+    else if (e.key === '3') pick(3);
+    else if (e.key === '0') pick(0);
+});
+
+render();
+</script>
+</body>
+</html>

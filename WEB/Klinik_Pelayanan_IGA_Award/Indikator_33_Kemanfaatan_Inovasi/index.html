@@ -1,0 +1,360 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indikator 33 — Kemanfaatan Inovasi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #F8FAFC; color: #334155;
+            font-family: 'Inter', -apple-system, sans-serif; line-height: 1.7;
+        }
+        .navbar {
+            position: fixed; top: 0; width: 100%;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 clamp(1.25rem,4vw,3rem); height: 60px;
+            background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.08); z-index: 1000;
+        }
+        .logo {
+            display: flex; align-items: center; gap: 0.5rem;
+            font-size: 1.1rem; font-weight: 700; color: #1E293B; text-decoration: none;
+        }
+        .logo-img { height: 28px; width: auto; }
+        .nav-links { display: flex; list-style: none; gap: 0.15rem; }
+        .nav-links a {
+            display: flex; align-items: center; gap: 0.35rem;
+            padding: 0.45rem 0.8rem; font-size: 0.82rem; font-weight: 500;
+            color: #64748B; border-radius: 8px; text-decoration: none; transition: 0.2s;
+        }
+        .nav-links a:hover { color: #0284C7; background: rgba(14,165,233,0.06); }
+        .dropdown { position: relative; }
+        .dropdown-menu {
+            display: none; position: absolute; top: 100%; right: 0;
+            min-width: 200px; background: #fff; border: 1px solid rgba(0,0,0,0.06);
+            border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+            padding: 0.4rem; list-style: none; z-index: 100;
+        }
+        .dropdown.open .dropdown-menu { display: block; }
+        .dropdown-menu li a {
+            display: flex; align-items: center; gap: 0.5rem;
+            padding: 0.55rem 0.85rem; font-size: 0.82rem; font-weight: 500;
+            color: #475569; border-radius: 8px; transition: 0.2s;
+        }
+        .dropdown-menu li a:hover { background: rgba(14,165,233,0.06); color: #0284C7; }
+        .dropdown-menu li a i { width: 16px; text-align: center; color: #0EA5E9; }
+        .btn-wa {
+            display: inline-flex; align-items: center; gap: 0.45rem;
+            padding: 0.55rem 1.2rem; font-size: 0.82rem; font-weight: 600;
+            border-radius: 100px; background: #25D366; color: #fff;
+            text-decoration: none; transition: 0.2s; white-space: nowrap;
+        }
+        .btn-wa:hover { background: #1EBE5D; transform: translateY(-1px); }
+
+        .page-wrap {
+            max-width: 860px; margin: 0 auto;
+            padding: calc(60px + 2.5rem) clamp(1rem,4vw,2rem) 3rem;
+        }
+        .back-link {
+            display: inline-flex; align-items: center; gap: 0.4rem;
+            font-size: 0.82rem; font-weight: 600; color: #0EA5E9;
+            text-decoration: none; margin-bottom: 1.5rem;
+            padding: 0.4rem 0.85rem; border-radius: 8px;
+            background: rgba(14,165,233,0.06); border: 1px solid rgba(14,165,233,0.15);
+            transition: 0.2s;
+        }
+        .back-link:hover { background: rgba(14,165,233,0.1); }
+
+        .content-card {
+            background: #fff; border-radius: 16px;
+            padding: clamp(1.5rem,4vw,2.5rem);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.03);
+            border: 1px solid rgba(0,0,0,0.04);
+        }
+        .content h1 {
+            font-size: clamp(1.5rem,3vw,2rem); font-weight: 800; color: #0F172A;
+            margin: 0 0 0.5rem; line-height: 1.2; letter-spacing: -0.02em;
+        }
+        .content h2 {
+            font-size: 1.2rem; font-weight: 700; color: #0284C7;
+            margin: 2rem 0 0.75rem; padding-bottom: 0.4rem; border-bottom: 2px solid #E0F2FE;
+        }
+        .content h3 { font-size: 1.05rem; font-weight: 600; color: #0F172A; margin: 1.5rem 0 0.5rem; }
+        .content p { margin: 0 0 1rem; font-size: 0.95rem; color: #475569; }
+        .content ul, .content ol { margin: 0 0 1rem; padding-left: 1.5rem; }
+        .content li { margin-bottom: 0.4rem; font-size: 0.95rem; color: #475569; }
+        .content strong { color: #1E293B; }
+        .content hr { border: none; height: 1px; background: #E2E8F0; margin: 1.5rem 0; }
+        .content code {
+            font-family: 'Courier New', monospace; font-size: 0.85rem; color: #0F766E;
+            background: #F0FDFA; padding: 0.15rem 0.45rem; border-radius: 4px; border: 1px solid #CCFBF1;
+        }
+        .content pre {
+            background: #0F172A; color: #E2E8F0; padding: 1.25rem;
+            border-radius: 10px; overflow-x: auto; margin: 1rem 0; border: 1px solid #1E293B;
+        }
+        .content pre code { background: none; border: none; padding: 0; color: #E2E8F0; }
+        .content table {
+            width: 100%; border-collapse: collapse; margin: 1rem 0 1.5rem;
+            border-radius: 10px; overflow: hidden; border: 1px solid #E2E8F0;
+        }
+        .content th, .content td {
+            padding: 0.75rem 1rem; text-align: left;
+            border-bottom: 1px solid #F1F5F9; font-size: 0.88rem;
+        }
+        .content th {
+            background: #F0F9FF; color: #0284C7; font-weight: 600;
+            font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.03em;
+        }
+        .content tr:hover td { background: #FAFCFF; }
+        .content blockquote {
+            border-left: 3px solid #0EA5E9; margin: 1rem 0; padding: 0.75rem 1.25rem;
+            background: #F0F9FF; border-radius: 0 8px 8px 0; color: #0F172A;
+        }
+        .content a { color: #0EA5E9; text-decoration: none; font-weight: 500; }
+        .content a:hover { text-decoration: underline; }
+
+        footer {
+            padding: 2rem clamp(1.5rem,5vw,5rem); background: #fff;
+            border-top: 1px solid rgba(0,0,0,0.06); text-align: center; margin-top: 2rem;
+        }
+        .footer-logo {
+            display: flex; align-items: center; justify-content: center;
+            gap: 0.5rem; font-size: 0.95rem; font-weight: 700; color: #1E293B; margin-bottom: 0.4rem;
+        }
+        .footer-logo-img { height: 28px; width: auto; }
+        footer p { color: #64748B; font-size: 0.78rem; }
+
+        @media (max-width: 768px) {
+            .nav-links, .btn-wa { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="../index.html" class="logo">
+            <img src="../Media/logo-medan.gif" alt="Logo" class="logo-img">
+            <img src="../Media/Brida logo.png" alt="Logo" class="logo-img">
+            <span>IGA<strong>Clinic</strong></span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="../index.html">Beranda</a></li>
+            <li><a href="../index.html#indikator"><i class="fas fa-th-list"></i> Indikator</a></li>
+            <li><a href="../faq.html"><i class="fas fa-circle-question"></i> FAQ</a></li>
+            <li><a href="../feedback.html"><i class="fas fa-comment-dots"></i> Feedback</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" onclick="event.preventDefault(); this.parentElement.classList.toggle('open')"><i class="fas fa-download"></i> Download <i class="fas fa-chevron-down" style="font-size:0.6rem;margin-left:0.2rem"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a href="../downloads/SOP_IGA.pdf" target="_blank"><i class="fas fa-file-pdf"></i> SOP</a></li>
+                    <li><a href="../downloads/Modul_IGA.pdf" target="_blank"><i class="fas fa-book"></i> Modul</a></li>
+                    <li><a href="../downloads/Pengumuman_IGA.pdf" target="_blank"><i class="fas fa-bullhorn"></i> Pengumuman</a></li>
+                    <li><a href="../downloads/Template_Bukti_Dukung.xlsx" target="_blank"><i class="fas fa-file-excel"></i> Template Bukti Dukung</a></li>
+                </ul>
+            </li>
+        </ul>
+        <a href="../kalkulator.html" class="btn-wa" style="background:#10B981;color:#fff;"><i class="fas fa-calculator"></i> Kalkulator</a>
+    </nav>
+    <div class="page-wrap">
+        <a href="../index.html#indikator" class="back-link"><i class="fas fa-arrow-left"></i> Kembali ke Portal</a>
+        <div class="content-card">
+            <div class="content">
+                <h1>Indikator 33 — Kemanfaatan Inovasi ⭐ (WAJIB)</h1>
+<h2>Bobot: 3 | Variabel: Jumlah Inovasi dan Hasil Kreatif</h2>
+<h2>Pilih SATU Satuan Ukur (a/b/c/d/e)</h2>
+<h3>a. Cakupan Penerima Manfaat (orang)</h3>
+<ul>
+<li><strong>Nama file:</strong> <code>01a_Daftar_Penerima_Manfaat.pdf</code> atau <code>01a_Screenshot_Pengguna.png</code></li>
+<li>Dibuktikan dengan daftar penerima manfaat (luring/PDF) atau screenshot jumlah pengguna (daring/PNG)</li>
+</ul>
+<div style="overflow-x:auto"><table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Jumlah</th>
+<th>Skor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>1–200 orang</td>
+<td>Rendah</td>
+</tr>
+<tr>
+<td>2</td>
+<td>201–500 orang</td>
+<td>Sedang</td>
+</tr>
+<tr>
+<td><strong>3 ✅</strong></td>
+<td><strong>501 orang atau lebih</strong></td>
+<td><strong>Tinggi</strong></td>
+</tr>
+</tbody>
+</table></div>
+<h3>b. Cakupan Unit Penerima Manfaat (%)</h3>
+<ul>
+<li><strong>Nama file:</strong> <code>01b_Rekap_Unit_Penerima.pdf</code></li>
+<li>Perbandingan rekapitulasi jumlah unit sebelum dan sesudah</li>
+</ul>
+<div style="overflow-x:auto"><table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Persentase</th>
+<th>Skor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>5% – 20% dari unit sasaran</td>
+<td>Rendah</td>
+</tr>
+<tr>
+<td>2</td>
+<td>20,02% – 50% dari unit sasaran</td>
+<td>Sedang</td>
+</tr>
+<tr>
+<td><strong>3 ✅</strong></td>
+<td><strong>Di atas 50% dari unit sasaran</strong></td>
+<td><strong>Tinggi</strong></td>
+</tr>
+</tbody>
+</table></div>
+<h3>c. Efisiensi Belanja (%)</h3>
+<ul>
+<li><strong>Nama file:</strong> <code>01c_Laporan_Efisiensi_Belanja.pdf</code></li>
+<li>Laporan perbandingan biaya sebelum dan sesudah penerapan inovasi</li>
+</ul>
+<div style="overflow-x:auto"><table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Efisiensi</th>
+<th>Skor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>0,01% – 9,99%</td>
+<td>Rendah</td>
+</tr>
+<tr>
+<td>2</td>
+<td>10,01% – 20%</td>
+<td>Sedang</td>
+</tr>
+<tr>
+<td><strong>3 ✅</strong></td>
+<td><strong>20,01% – 30%</strong></td>
+<td><strong>Tinggi</strong></td>
+</tr>
+</tbody>
+</table></div>
+<h3>d. Penambahan Pendapatan (%)</h3>
+<ul>
+<li><strong>Nama file:</strong> <code>01d_Laporan_Pendapatan.pdf</code></li>
+<li>Laporan keuangan pendapatan sebelum dan sesudah penerapan inovasi</li>
+</ul>
+<div style="overflow-x:auto"><table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Penambahan</th>
+<th>Skor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>0,01% – 9,99%</td>
+<td>Rendah</td>
+</tr>
+<tr>
+<td>2</td>
+<td>10% – 19,99%</td>
+<td>Sedang</td>
+</tr>
+<tr>
+<td><strong>3 ✅</strong></td>
+<td><strong>≥ 20%</strong></td>
+<td><strong>Tinggi</strong></td>
+</tr>
+</tbody>
+</table></div>
+<h3>e. Jumlah Produk (barang)</h3>
+<ul>
+<li><strong>Nama file:</strong> <code>01e_Rekap_Jumlah_Produk.pdf</code></li>
+<li>Perbandingan jumlah produk yang dihasilkan/diperjualbelikan</li>
+</ul>
+<div style="overflow-x:auto"><table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Jumlah Produk</th>
+<th>Skor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>1–100 barang</td>
+<td>Rendah</td>
+</tr>
+<tr>
+<td>2</td>
+<td>101–200 barang</td>
+<td>Sedang</td>
+</tr>
+<tr>
+<td><strong>3 ✅</strong></td>
+<td><strong>Lebih dari 200 barang</strong></td>
+<td><strong>Tinggi</strong></td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+            </div>
+        </div>
+    </div>
+    <footer style="padding:2.5rem clamp(1.5rem,5vw,5rem) 1.5rem;background:#0F172A;color:#94A3B8">
+        <div style="max-width:1280px;margin:0 auto">
+            <div style="display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:2rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,0.08)">
+                <div>
+                    <div style="display:flex;align-items:center;gap:0.5rem;font-weight:700;color:#fff;margin-bottom:0.6rem">
+                        <img src="../Media/logo-medan.gif" alt="Logo" style="height:30px">
+                        <img src="../Media/Brida logo.png" alt="Logo" style="height:30px">
+                        <span>IGA<strong>Clinic</strong></span>
+                    </div>
+                    <div style="font-size:0.72rem;font-weight:600;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.8rem">Badan Riset dan Inovasi Daerah Kota Medan</div>
+                    <p style="font-size:0.82rem;color:#64748B;margin:0">Platform pendampingan dan konsultasi inovasi daerah terpadu.</p>
+                </div>
+                <div>
+                    <h4 style="font-size:0.72rem;font-weight:700;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.8rem">Kontak</h4>
+                    <ul style="list-style:none;padding:0;margin:0;font-size:0.82rem">
+                        <li style="margin-bottom:0.55rem"><i class="fas fa-map-marker-alt" style="color:#38BDF8;width:16px;margin-right:0.5rem"></i>Jl. Jenderal Besar A.H. Nasution No. 32 Medan</li>
+                        <li style="margin-bottom:0.55rem"><i class="fas fa-envelope" style="color:#38BDF8;width:16px;margin-right:0.5rem"></i><a href="mailto:brida@medan.go.id" style="color:#94A3B8;text-decoration:none">brida@medan.go.id</a></li>
+                        <li style="margin-bottom:0.55rem"><i class="fas fa-phone" style="color:#38BDF8;width:16px;margin-right:0.5rem"></i><a href="tel:0617873439" style="color:#94A3B8;text-decoration:none">(061) 7873439</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="font-size:0.72rem;font-weight:700;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.8rem">Halaman</h4>
+                    <ul style="list-style:none;padding:0;margin:0;font-size:0.82rem">
+                        <li style="margin-bottom:0.45rem"><a href="../index.html" style="color:#94A3B8;text-decoration:none"><i class="fas fa-chevron-right" style="font-size:0.7rem;margin-right:0.35rem"></i>Beranda</a></li>
+                        <li style="margin-bottom:0.45rem"><a href="../kalkulator.html" style="color:#94A3B8;text-decoration:none"><i class="fas fa-chevron-right" style="font-size:0.7rem;margin-right:0.35rem"></i>Kalkulator</a></li>
+                        <li style="margin-bottom:0.45rem"><a href="../faq.html" style="color:#94A3B8;text-decoration:none"><i class="fas fa-chevron-right" style="font-size:0.7rem;margin-right:0.35rem"></i>FAQ</a></li>
+                        <li style="margin-bottom:0.45rem"><a href="../feedback.html" style="color:#94A3B8;text-decoration:none"><i class="fas fa-chevron-right" style="font-size:0.7rem;margin-right:0.35rem"></i>Feedback</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div style="text-align:center;padding-top:1.25rem;font-size:0.72rem;color:#475569">&copy; 2026 BRIDA Kota Medan - Klinik Pelayanan Inovasi.</div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Pusat Download - Unduh dokumen SOP, Modul, Pengumuman, dan Template Bukti Dukung IGA Award.">
+    <title>Download - Klinik Pelayanan IGA Award</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        /* ===== DOWNLOAD PAGE ===== */
+        .dl-hero {
+            background: var(--gradient-hero);
+            padding: calc(60px + 3rem) clamp(1.5rem, 5vw, 5rem) 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .dl-hero::before {
+            content: '';
+            position: absolute;
+            width: 500px; height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(14,165,233,0.1) 0%, transparent 70%);
+            top: -120px; right: -80px;
+            pointer-events: none;
+        }
+        .dl-hero::after {
+            content: '';
+            position: absolute;
+            width: 350px; height: 350px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(16,185,129,0.07) 0%, transparent 70%);
+            bottom: -60px; left: 5%;
+            pointer-events: none;
+        }
+        .dl-hero .badge { margin-bottom: 1rem; }
+        .dl-hero h1 { margin-bottom: 0.75rem; font-size: clamp(1.8rem, 4vw, 2.8rem); }
+        .dl-hero p {
+            color: rgba(255,255,255,0.65);
+            font-size: 1rem;
+            max-width: 520px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        /* ===== CATEGORY TABS ===== */
+        .dl-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 1.5rem clamp(1.5rem, 5vw, 5rem) 0;
+            background: var(--bg-body);
+            flex-wrap: wrap;
+            position: sticky;
+            top: 60px;
+            z-index: 50;
+            border-bottom: 1px solid var(--border-light);
+        }
+        .dl-tab {
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+            padding: 0.65rem 1.3rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-light);
+            background: transparent;
+            border: 1.5px solid var(--border-light);
+            border-bottom: none;
+            border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: 'Inter', sans-serif;
+        }
+        .dl-tab:hover {
+            color: var(--accent-2);
+            background: rgba(14,165,233,0.04);
+        }
+        .dl-tab.active {
+            color: var(--accent-2);
+            background: var(--bg-white);
+            border-color: var(--accent-1);
+            border-bottom: 2px solid var(--bg-white);
+            position: relative;
+            top: 1px;
+        }
+        .dl-tab i { font-size: 0.85rem; }
+
+        /* ===== DOWNLOAD SECTIONS ===== */
+        .dl-content {
+            padding: 2.5rem clamp(1.5rem, 5vw, 5rem);
+            background: var(--bg-white);
+            min-height: 50vh;
+        }
+
+        .dl-section {
+            display: none;
+            max-width: 1000px;
+            margin: 0 auto;
+            animation: dlFadeIn 0.35s ease;
+        }
+        .dl-section.active { display: block; }
+
+        @keyframes dlFadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .dl-section-header {
+            margin-bottom: 2rem;
+        }
+        .dl-section-header h2 {
+            font-size: 1.5rem;
+            margin-bottom: 0.4rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+        .dl-section-header h2 i {
+            color: var(--accent-1);
+            font-size: 1.2rem;
+        }
+        .dl-section-header p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        /* ===== FILE CARDS ===== */
+        .dl-file-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+        }
+
+        .dl-file-card {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            padding: 1.25rem 1.5rem;
+            background: var(--bg-body);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            transition: var(--transition);
+        }
+        .dl-file-card:hover {
+            border-color: rgba(14,165,233,0.25);
+            box-shadow: var(--shadow-card-hover);
+            transform: translateY(-2px);
+        }
+
+        .dl-file-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+        .dl-file-icon.pdf { background: rgba(239,68,68,0.1); color: #EF4444; }
+        .dl-file-icon.doc { background: rgba(59,130,246,0.1); color: #3B82F6; }
+        .dl-file-icon.xls { background: rgba(16,185,129,0.1); color: #10B981; }
+        .dl-file-icon.ppt { background: rgba(249,115,22,0.1); color: #F97316; }
+        .dl-file-icon.zip { background: rgba(139,92,246,0.1); color: #8B5CF6; }
+        .dl-file-icon.img { background: rgba(236,72,153,0.1); color: #EC4899; }
+        .dl-file-icon.vid { background: rgba(239,68,68,0.1); color: #EF4444; }
+        .dl-file-icon.gen { background: rgba(14,165,233,0.1); color: var(--accent-1); }
+
+        .dl-file-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .dl-file-info h3 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 0.2rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .dl-file-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+        .dl-file-meta span {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        .dl-file-meta span i { font-size: 0.65rem; }
+        .dl-file-desc {
+            font-size: 0.82rem;
+            color: var(--text-body);
+            margin-top: 0.35rem;
+            line-height: 1.5;
+        }
+
+        .dl-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.5rem 1.1rem;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: #fff;
+            background: var(--accent-1);
+            border-radius: var(--radius-sm);
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+        .dl-btn:hover {
+            background: var(--accent-2);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(14,165,233,0.3);
+        }
+        .dl-btn i { font-size: 0.7rem; }
+
+        /* ===== EMPTY STATE ===== */
+        .dl-empty {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: var(--text-light);
+        }
+        .dl-empty i {
+            font-size: 2.5rem;
+            color: rgba(14,165,233,0.2);
+            margin-bottom: 1rem;
+        }
+        .dl-empty h3 {
+            font-size: 1rem;
+            color: var(--text-body);
+            margin-bottom: 0.35rem;
+        }
+        .dl-empty p { font-size: 0.85rem; }
+
+        /* ===== STATS BAR ===== */
+        .dl-stats {
+            display: flex;
+            justify-content: center;
+            gap: 2.5rem;
+            padding: 1.5rem;
+            background: rgba(255,255,255,0.06);
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(255,255,255,0.08);
+            max-width: 600px;
+            margin: 1.5rem auto 0;
+            backdrop-filter: blur(8px);
+        }
+        .dl-stat {
+            text-align: center;
+        }
+        .dl-stat-num {
+            font-size: 1.6rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #38BDF8, #34D399);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .dl-stat-label {
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.5);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+        }
+
+        /* ===== SEARCH ===== */
+        .dl-search-wrap {
+            max-width: 1000px;
+            margin: 0 auto 1.5rem;
+            position: relative;
+        }
+        .dl-search-wrap i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+            font-size: 0.85rem;
+        }
+        .dl-search {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            font-size: 0.88rem;
+            font-family: 'Inter', sans-serif;
+            border: 1.5px solid var(--border-light);
+            border-radius: var(--radius-md);
+            background: var(--bg-body);
+            color: var(--text-dark);
+            transition: var(--transition);
+            outline: none;
+        }
+        .dl-search:focus {
+            border-color: var(--accent-1);
+            box-shadow: 0 0 0 3px rgba(14,165,233,0.1);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 640px) {
+            .dl-file-card {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.85rem;
+            }
+            .dl-btn { width: 100%; justify-content: center; }
+            .dl-stats { gap: 1.5rem; }
+            .dl-tabs { gap: 0.35rem; }
+            .dl-tab { padding: 0.5rem 0.9rem; font-size: 0.78rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar">
+        <div class="logo">
+            <img src="Media/logo-medan.gif" alt="Logo Pemko Medan" class="logo-img">
+            <img src="Media/Brida logo.png" alt="Logo BRIDA" class="logo-img">
+            <span>IGA<strong>Clinic</strong></span>
+        </div>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html">Beranda</a></li>
+            <li><a href="index.html#layanan">Layanan</a></li>
+            <li><a href="index.html#galeri">Galeri</a></li>
+            <li><a href="index.html#indikator">Indikator</a></li>
+            <li><a href="index.html#faq">FAQ</a></li>
+            <li><a href="feedback.html">Feedback</a></li>
+            <li><a href="download.html" style="color:var(--accent-2);font-weight:700;">Download</a></li>
+        </ul>
+        <div class="hamburger" id="hamburger" onclick="document.getElementById('navLinks').classList.toggle('active')">
+            <span></span><span></span><span></span>
+        </div>
+        <a href="kalkulator.html" class="btn" style="background:var(--accent-3);color:#fff;"><i class="fas fa-calculator"></i> Kalkulator</a>
+    </nav>
+
+    <!-- ===== HERO ===== -->
+    <section class="dl-hero">
+        <div class="badge"><i class="fas fa-download"></i> Pusat Unduhan</div>
+        <h1>Pusat <span class="gradient-text">Download</span></h1>
+        <p>Unduh dokumen SOP, modul panduan, pengumuman resmi, dan template bukti dukung untuk mendukung penilaian inovasi daerah Anda.</p>
+        <div class="dl-stats">
+            <div class="dl-stat">
+                <div class="dl-stat-num">3</div>
+                <div class="dl-stat-label">Kategori</div>
+            </div>
+            <div class="dl-stat">
+                <div class="dl-stat-num">24</div>
+                <div class="dl-stat-label">Dokumen</div>
+            </div>
+            <div class="dl-stat">
+                <div class="dl-stat-num"><i class="fab fa-google-drive" style="font-size:1.4rem"></i></div>
+                <div class="dl-stat-label">Google Drive</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== TABS ===== -->
+    <div class="dl-tabs">
+        <button class="dl-tab active" data-tab="modul" id="tab-modul"><i class="fas fa-book"></i> Modul</button>
+        <button class="dl-tab" data-tab="pengumuman" id="tab-pengumuman"><i class="fas fa-bullhorn"></i> Pengumuman</button>
+        <button class="dl-tab" data-tab="template" id="tab-template"><i class="fas fa-folder-open"></i> Template Bukti Dukung</button>
+    </div>
+
+    <!-- ===== CONTENT ===== -->
+    <div class="dl-content">
+
+        <!-- Search -->
+        <div class="dl-search-wrap">
+            <i class="fas fa-search"></i>
+            <input type="text" class="dl-search" id="dlSearch" placeholder="Cari dokumen..." oninput="filterFiles()">
+        </div>
+
+        <!-- TAB: MODUL -->
+        <div class="dl-section active" id="sec-modul">
+            <div class="dl-section-header">
+                <h2><i class="fas fa-book"></i> Modul &amp; Materi Panduan</h2>
+                <p>Modul lengkap, materi presentasi, dan template proposal untuk persiapan IGA Award.</p>
+            </div>
+            <div class="dl-file-list">
+                <div class="dl-file-card" data-name="Modul Pusat Pelayanan IGA Award">
+                    <div class="dl-file-icon pdf"><i class="fas fa-file-pdf"></i></div>
+                    <div class="dl-file-info">
+                        <h3>Modul Pusat Pelayanan IGA Award</h3>
+                        <div class="dl-file-meta">
+                            <span><i class="fas fa-file"></i> PDF</span>
+                            <span><i class="fas fa-calendar"></i> 2025</span>
+                            <span><i class="fas fa-star" style="color:#F59E0B;"></i> Utama</span>
+                        </div>
+                        <div class="dl-file-desc">Panduan lengkap pengisian indikator SID beserta parameter penilaian, bukti dukung, dan tips skor maksimal.</div>
+                    </div>
+                    <a href="https://drive.google.com/file/d/1u7Zt-rFtu-5iF_RpxmI09DyS_OYKjm7v/view?usp=sharing" class="dl-btn" target="_blank"><i class="fas fa-external-link-alt"></i> Buka</a>
+                </div>
+                <div class="dl-file-card" data-name="Materi IGA Presentasi">
+                    <div class="dl-file-icon ppt"><i class="fas fa-file-powerpoint"></i></div>
+                    <div class="dl-file-info">
+                        <h3>Materi IGA (Presentasi)</h3>
+                        <div class="dl-file-meta">
+                            <span><i class="fas fa-file"></i> PPTX</span>
+                            <span><i class="fas fa-calendar"></i> 2025</span>
+                        </div>
+                        <div class="dl-file-desc">Presentasi ringkasan indikator Satuan Inovasi Daerah untuk sosialisasi dan bimtek klasikal.</div>
+                    </div>
+                    <a href="https://docs.google.com/presentation/d/1Wy3Dbv9go8lTA7CbxKcj-JFvGhP5zmWA/edit?usp=drive_link&ouid=117693130326487646047&rtpof=true&sd=true" class="dl-btn" target="_blank"><i class="fas fa-external-link-alt"></i> Buka</a>
+                </div>
+                <div class="dl-file-card" data-name="Template Proposal Inovasi">
+                    <div class="dl-file-icon doc"><i class="fas fa-file-word"></i></div>
+                    <div class="dl-file-info">
+                        <h3>Template Proposal Inovasi</h3>
+                        <div class="dl-file-meta">
+                            <span><i class="fas fa-file"></i> DOCX</span>
+                            <span><i class="fas fa-calendar"></i> 2025</span>
+                            <span><i class="fas fa-star" style="color:#F59E0B;"></i> Template</span>
+                        </div>
+                        <div class="dl-file-desc">Template proposal inovasi daerah yang bisa langsung digunakan oleh OPD sebagai acuan penyusunan.</div>
+                    </div>
+                    <a href="https://docs.google.com/document/d/1tkEGjZPmBxepj3XK_uEwpSF_hbrftFviWD1tgm27ZKs/edit?usp=drive_link" class="dl-btn" target="_blank"><i class="fas fa-external-link-alt"></i> Buka</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB: PENGUMUMAN -->
+        <div class="dl-section" id="sec-pengumuman">
+            <div class="dl-section-header">
+                <h2><i class="fas fa-bullhorn"></i> Pengumuman</h2>
+                <p>Informasi dan surat resmi terkait penilaian Inovasi Daerah.</p>
+            </div>
+            <div class="dl-file-list">
+                <div class="dl-file-card" data-name="Surat Penilaian Inovasi Daerah 2025">
+                    <div class="dl-file-icon pdf"><i class="fas fa-file-pdf"></i></div>
+                    <div class="dl-file-info">
+                        <h3>Surat Penilaian Inovasi Daerah 2025</h3>
+                        <div class="dl-file-meta">
+                            <span><i class="fas fa-file"></i> PDF</span>
+                            <span><i class="fas fa-calendar"></i> 2025</span>
+                            <span style="color:#EF4444;font-weight:600;"><i class="fas fa-fire"></i> Penting</span>
+                        </div>
+                        <div class="dl-file-desc">Surat resmi tentang pelaksanaan penilaian inovasi daerah beserta ketentuan dan indikator penilaian.</div>
+                    </div>
+                    <a href="https://drive.google.com/file/d/19cADnIOG0XaBFoKGtCtIN5A6xSdriojc/view?usp=drive_link" class="dl-btn" target="_blank"><i class="fas fa-external-link-alt"></i> Buka</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB: TEMPLATE BUKTI DUKUNG -->
+        <div class="dl-section" id="sec-template">
+            <div class="dl-section-header">
+                <h2><i class="fas fa-folder-open"></i> Template Bukti Dukung per Indikator</h2>
+                <p>Folder contoh eviden dan panduan penyusunan bukti dukung untuk setiap indikator (1–20).</p>
+            </div>
+            <div class="dl-file-list">
+                <div class="dl-file-card" data-name="Indikator 1 Regulasi Inovasi">
+                    <div class="dl-file-icon gen"><i class="fas fa-folder"></i></div>
+                    <div class="dl-file-info">
+                        <h3>Indikator 1 — Regulasi Inovasi Daerah</h3>
+                        <div class="dl-file-meta">
+                            <span><i class="fab fa-google-drive"></i> Google Drive</span>
+                            <span><i class="fas fa-star" style="color:#EF4444;"></i> Wajib</span>
+                        </div>
+                        <div class="dl-file-desc">Contoh eviden Perda/Perkada/SK Kepala Daerah yang menetapkan nama inovasi daerah.</div>
+                    </div>
+                    <a href="https://drive.google.com/drive/folders/1AdzLbWkqXJcYP_v0gvPj1MmWNenqIMmv?usp=drive_link" class="dl-btn" target="_blank"><i class="fas fa-external-link-alt"></i> Buka</a>
+                </div>
+                <div class="dl-file-card" data-name="Indikator 2 Ketersediaan SDM">
+                    <div class="dl-file-icon gen"><i class="fas fa-folder"></i></div>
+                    <div class="dl-file-info">
+                        <h3>Indikator 2 — Ketersediaan SDM Inovasi</h3>
+                        <div class="dl-file-meta">
+                            <span><i class="fab fa-google-drive"></i> Google Drive</span>
+                            <span><i class="fas fa-star" style="color:#EF4444;"></i> Wajib</span>
+                        </div>
+                        <div class="dl-file-desc">Contoh SK Tim Inovasi dan daftar SDM pengelola inovasi daerah.</div>
+                    </div>
+                    <a href="https://drive.google.com/drive/folders/1sHKztffifM6cByAq-7do7gr94lZvs-bU?usp=drive_link" class="dl-btn" target="_blank"><i class="fas fa-external-link-alt"></i> Buka</a>
+                </div>
+                <div class="dl-file-card" data-name="Indikator 3 Dukungan Anggaran">
+                    <div class="dl-file-icon gen"><i class="fas fa-folder"></i></div>
+                    <div class="dl-file-info">
+                        <h3>Indikator 3 — Dukungan Anggaran</h3>
+                        <div class="dl-file-meta"><span><i class="fab fa-google-drive"></i> Google Drive</span></div>
+                        <div class="dl-file-desc">Contoh DPA/APBD yang memuat program dan kegiatan inovasi (T-0, T-1, T-2).</div>
+                    </div>
+                    <a href="https://drive.google.com/drive/folders/1C8IWGHV0LRwSpm_hT1YEVV2p3ig0E740?usp=drive_link" class="dl-btn" target="_blank"><i class="fas fa-external-link-alt"></i> Buka</a>
+                </div>
+                <div class="dl-file-card" data-name="Indikator 4 Alat Kerja">
+                    <div class="dl-file-icon gen"><i class="fas fa-folder"></i></div>
+                    <div class="dl-file-info">
+                        <h3>Indikator 4 — Alat Kerja</h3>
+                        <div class="dl-file-meta"><span><i class="fab fa-google-drive"></i> Google Drive</span></div>
+                        <div class="dl-file-desc">Contoh foto/screenshot alat kerja dan sistem informasi yang digunakan dalam inovasi.</div>
+                    </div>
+                    <a href="https://drive.google.com/drive/folders/1tluvlAmi01x4ZIyPEWn4d6rainb3Qdhb?usp=drive_link" class="dl-btn" target="_blank"><i class="fas fa-external-link-alt"></i> Buka</a>
+                </div>
+                <div class="dl-file-card" data-name="Indikator 5 Bimtek Inovasi">
+                    <div class="dl-file-icon gen"><i class="fas fa-folder"></i></div>
+                    <div class="dl-file-info">
+                        <h3>Indikator 5 — Bimtek Inovasi</h3>
+                        <div class="dl-file-meta"><span><i class="fab fa-google-drive"></i> Google Drive</span></div>
+                        <div class="dl-file-desc">Contoh SK/Surat Tugas, sertifikat, dan daftar hadir kegiatan bimtek/training.</div>
+                    </div>
+                    <a href="https://drive.google.com/drive/folders/1EP2HfM3aB4LyuXs-VqRNqAExhKqF9cVK?usp=drive_link" class="dl-btn" target="_blank"><i class="fas fa-external-link-alt"></i> Buka</a>
+                </div>
+                <div class="dl-file-card" data-name="Indikator 6 Integrasi RKPD">
+                    <div class="dl-file-icon gen"><i class="fas fa-folder"></i></div>
+                    <div class="dl-file-info">
+                        <h3>Indikator 6 — Integrasi Program dalam RKPD</h3>
+                        <div class="dl-file-meta"><span><i class="fab fa-google-drive"></i> Google Drive</span></div>
+                        <div class="dl-file-desc">Contoh dokumen RKPD yang memuat program dan kegiatan inovasi daerah.</div>
+                    </div>
+                    <a href="https://drive.google.com/drive/folders/1bXZJDTr-5jNmSEjpefm219GTztkDiFFg?usp=drive_link" class="dl-btn" target="_blank"><i class="fas fa-external-link-alt"></i> Buka</a>
+                </div>
+                <div class="dl-file-card" data-name="Indikator 7 Keterlibatan Aktor">
+                    <div class="dl-file-icon gen"><i class="fas fa-folder"></i></div>
+                    <div class="dl-file-info">
+                        <h3>Indikator 7 — Keterlibatan Aktor Inovasi</h3>
+                        <div class="dl-file-meta"><span><i class="fab fa-google-drive"></i> Google Drive</span></div>
+                        <div class="dl-file-desc">Contoh SK/MoU/undangan yang memuat keterlibatan 5 aktor Pentahelix.</div>
+                    </div>
+                    <a href="https://drive.google.com/drive/folders/1j8IjWIslZE5xQ52jbto7pkcc5trg-PPL?usp=drive_link" class="dl-btn" target="_blank"><i class="fas fa-external-link-alt"></i> Buka</a>
+                </div>
+                <div class="dl-file-card" data-name="Indikator 8 Pelaksana Inovasi">
+                    <div class="dl-file-icon gen"><i class="fas fa-folder"></i></div>
+                    <div class="dl-file-info">
+                        <h3>Indikator 8 — Pelaksana Inovasi Daerah</h3>
+                        <div class="dl-file-meta"><span><i class="fab fa-google-drive"></i> Google Drive</span></div>
+                        <div class="dl-file-desc">Contoh SK/Surat Perintah penetapan tim pelaksana inovasi dari Kepala Daerah.</div>
+                    </div>
+                    <a href="https://drive.google.com/drive/folders/1MS3T_G12VTEJ1BD0ftEsWLxbdz9JAenB?usp=drive_link" class="dl-btn" target="_blank"><i class="fas fa-external-link-alt"></i> Buka</a>
+                </div>
+                <div class="dl-file-card" data-name="Indikator 9 Jejaring Inovasi">
+                    <div class="dl-file-icon gen"><i class="fas fa-folder"></i></div>
+                    <div class="dl-file-info">
+                        <h3>Indikator 9 — Jejaring Inovasi</h3>
+                        <div class="dl-file-meta"><span><i class="fab fa-google-drive"></i> Google Drive</span></div>
+                        <div class="dl-file-desc">Contoh SK/ST yang mencantumkan perangkat daerah yang terlibat dalam kolaborasi inovasi.</div>
+                    </div>
+                    <a href="https://drive.google.com/drive/folders/1MS3T_G12VTEJ1BD0ftEsWLxbdz9JAenB?usp=drive_link" class="dl-btn" target="_blank"><i class="fas fa-external-link-alt"></i> Buka</a>
+                </div>
+                <div class="dl-file-card" data-name="Indikator 10 Sosialisasi Inovasi">
+                    <div class="dl-file-icon gen"><i class="fas fa-folder"></i></div>
+                    <div class="dl-file-info">
+                        <h3>Indikator 10 — Sosialisasi Inovasi Daerah</h3>
+                        <div class="dl-file-meta"><span><i class="fab fa-google-drive"></i> Google Drive</span></div>
+                        <div class="dl-file-desc">Contoh foto sosialisasi, screenshot media sosial, dan kliping berita media.</div>
+                    </div>
+                    <a href="https://drive.google.com/drive/folders/1-Xbx6SqonbQ6n0ui7nVX5nNozhiScO41?usp=drive_link" class="dl-btn" target="_blank"><i class="fas fa-external-link-alt"></i> Buka</a>
+                </div>
+                <div class="dl-file-card" data-name="Indikator 11 Pedoman Teknis">
+                    <div class="dl-file-icon gen"><i class="fas fa-folder"></i></div>
+                    <div class="dl-file-info">
+                        <h3>Indikator 11 — Pedoman Teknis</h3>
+                        <div class="dl-file-meta"><span><i class="fab fa-google-drive"></i> Google Drive</span></div>
+                        <div class="dl-file-desc">Contoh manual book/buku petunjuk inovasi yang dapat diakses online.</div>
+                    </div>
+                    <a href="https://drive.google.com/drive/folders/1Jg8HTVYpcgX7pObyd8Rk9JnZ0DrnWM4v?usp=drive_link" class="dl-btn" target="_blank"><i class="fas fa-external-link-alt"></i> Buka</a>
+                </div>
+                <div class="dl-file-card" data-name="Indikator 12 Kemudahan Informasi">
+                    <div class="dl-file-icon gen"><i class="fas fa-folder"></i></div>
+                    <div class="dl-file-info">
+                        <h3>Indikator 12 — Kemudahan Informasi Layanan</h3>
+                        <div class="dl-file-meta"><span><i class="fab fa-google-drive"></i> Google Drive</span></div>
+                        <div class="dl-file-desc">Contoh screenshot per metode informasi layanan (manual, hotline, medsos, online).</div>
+                    </div>
+                    <a href="https://drive.google.com/drive/folders/1N9eE-gJ9-1O3M93QBN24QLo6HofaXkHd?usp=drive_link" class="dl-btn" target="_blank"><i class="fas fa-external-link-alt"></i> Buka</a>
+                </div>
+                <div class="dl-file-card" data-name="Indikator 13 Kemudahan Proses">
+                    <div class="dl-file-icon gen"><i class="fas fa-folder"></i></div>
+                    <div class="dl-file-info">
+                        <h3>Indikator 13 — Kemudahan Proses Inovasi</h3>
+                        <div class="dl-file-meta"><span><i class="fab fa-google-drive"></i> Google Drive</span></div>
+                        <div class="dl-file-desc">Contoh SOP pelaksanaan inovasi yang memuat durasi waktu layanan dan flowchart.</div>
+                    </div>
+                    <a href="https://drive.google.com/drive/folders/1iBzvDcUU0NB5ePqi1duItlvZ9qfoL0O7?usp=drive_link" class="dl-btn" target="_blank"><i class="fas fa-external-link-alt"></i> Buka</a>
+                </div>
+                <div class="dl-file-card" data-name="Indikator 14 Penyelesaian Pengaduan">
+                    <div class="dl-file-icon gen"><i class="fas fa-folder"></i></div>
+                    <div class="dl-file-info">
+                        <h3>Indikator 14 — Penyelesaian Layanan Pengaduan</h3>
+                        <div class="dl-file-meta"><span><i class="fab fa-google-drive"></i> Google Drive</span></div>
+                        <div class="dl-file-desc">Contoh rekapitulasi pengaduan, foto penyelesaian, dan perhitungan rasio.</div>
+                    </div>
+                    <a href="https://drive.google.com/drive/folders/1uG9cjkXM5kTkYgKmlCZ2ps2AqWCHVe18?usp=drive_link" class="dl-btn" target="_blank"><i class="fas fa-external-link-alt"></i> Buka</a>
+                </div>
+                <div class="dl-file-card" data-name="Indikator 15 Layanan Terintegrasi">
+                    <div class="dl-file-icon gen"><i class="fas fa-folder"></i></div>
+                    <div class="dl-file-info">
+                        <h3>Indikator 15 — Layanan Terintegrasi</h3>
+                        <div class="dl-file-meta"><span><i class="fab fa-google-drive"></i> Google Drive</span></div>
+                        <div class="dl-file-desc">Contoh screenshot integrasi layanan digital/non-digital lintas OPD atau SuperApps.</div>
+                    </div>
+                    <a href="https://drive.google.com/drive/folders/1753ff9GfRaKxCAfDKBJoos6EIDEueLWS?usp=drive_link" class="dl-btn" target="_blank"><i class="fas fa-external-link-alt"></i> Buka</a>
+                </div>
+                <div class="dl-file-card" data-name="Indikator 16 Replikasi">
+                    <div class="dl-file-icon gen"><i class="fas fa-folder"></i></div>
+                    <div class="dl-file-info">
+                        <h3>Indikator 16 — Replikasi</h3>
+                        <div class="dl-file-meta"><span><i class="fab fa-google-drive"></i> Google Drive</span></div>
+                        <div class="dl-file-desc">Contoh PKS/MoU/dokumen replikasi inovasi dengan daerah lain.</div>
+                    </div>
+                    <a href="https://drive.google.com/drive/folders/1CJj7qBU-Cr-7eKoG1IuVzqWdB-xMpybt?usp=drive_link" class="dl-btn" target="_blank"><i class="fas fa-external-link-alt"></i> Buka</a>
+                </div>
+                <div class="dl-file-card" data-name="Indikator 17 Kecepatan Penciptaan">
+                    <div class="dl-file-icon gen"><i class="fas fa-folder"></i></div>
+                    <div class="dl-file-info">
+                        <h3>Indikator 17 — Kecepatan Penciptaan Inovasi</h3>
+                        <div class="dl-file-meta"><span><i class="fab fa-google-drive"></i> Google Drive</span></div>
+                        <div class="dl-file-desc">Contoh laporan tahapan penciptaan inovasi beserta timeline proses.</div>
+                    </div>
+                    <a href="https://drive.google.com/drive/folders/1kplm0k8lD4LyZJD3hryFOVtmaOTEPx5C?usp=drive_link" class="dl-btn" target="_blank"><i class="fas fa-external-link-alt"></i> Buka</a>
+                </div>
+                <div class="dl-file-card" data-name="Indikator 18 Kemanfaatan Inovasi">
+                    <div class="dl-file-icon gen"><i class="fas fa-folder"></i></div>
+                    <div class="dl-file-info">
+                        <h3>Indikator 18 — Kemanfaatan Inovasi</h3>
+                        <div class="dl-file-meta"><span><i class="fab fa-google-drive"></i> Google Drive</span></div>
+                        <div class="dl-file-desc">Contoh daftar penerima manfaat, laporan efisiensi belanja, atau rekap jumlah produk.</div>
+                    </div>
+                    <a href="https://drive.google.com/drive/folders/18D1Uwzjp8f6WMKZfnZnQQYgJ8nn88PqN?usp=drive_link" class="dl-btn" target="_blank"><i class="fas fa-external-link-alt"></i> Buka</a>
+                </div>
+                <div class="dl-file-card" data-name="Indikator 19 Monitoring Evaluasi">
+                    <div class="dl-file-icon gen"><i class="fas fa-folder"></i></div>
+                    <div class="dl-file-info">
+                        <h3>Indikator 19 — Monitoring dan Evaluasi</h3>
+                        <div class="dl-file-meta"><span><i class="fab fa-google-drive"></i> Google Drive</span></div>
+                        <div class="dl-file-desc">Contoh laporan monev internal, SKM, dan hasil kajian/penelitian eksternal.</div>
+                    </div>
+                    <a href="https://drive.google.com/drive/folders/1d-H9KxfKD_ZB4Fl3C7a1-GfwMZWZwcvg?usp=drive_link" class="dl-btn" target="_blank"><i class="fas fa-external-link-alt"></i> Buka</a>
+                </div>
+                <div class="dl-file-card" data-name="Indikator 20 Kualitas Video Inovasi">
+                    <div class="dl-file-icon gen"><i class="fas fa-folder"></i></div>
+                    <div class="dl-file-info">
+                        <h3>Indikator 20 — Kualitas Video Inovasi</h3>
+                        <div class="dl-file-meta">
+                            <span><i class="fab fa-google-drive"></i> Google Drive</span>
+                            <span><i class="fas fa-star" style="color:#EF4444;"></i> Bobot Tertinggi</span>
+                        </div>
+                        <div class="dl-file-desc">Contoh video inovasi (maks. 5 menit) dengan 5 substansi wajib dan thumbnail berlogo Kemendagri.</div>
+                    </div>
+                    <a href="https://drive.google.com/drive/folders/1aVUZVwWQMpbU4bIdx8hiFtdeDW5KBss_?usp=drive_link" class="dl-btn" target="_blank"><i class="fas fa-external-link-alt"></i> Buka</a>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <img src="Media/logo-medan.gif" alt="Logo" class="footer-logo-img">
+                        <img src="Media/Brida logo.png" alt="Logo" class="footer-logo-img">
+                        <span>IGA<strong>Clinic</strong></span>
+                    </div>
+                    <div class="footer-org">Badan Riset dan Inovasi Daerah Kota Medan</div>
+                    <p>Platform pendampingan dan konsultasi inovasi daerah terpadu untuk mencapai indeks inovasi tertinggi.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Kontak</h4>
+                    <ul class="footer-contact">
+                        <li><i class="fas fa-map-marker-alt"></i> Jl. Jenderal Besar A.H. Nasution No. 32 Medan</li>
+                        <li><i class="fas fa-envelope"></i> <a href="mailto:brida@medan.go.id">brida@medan.go.id</a></li>
+                        <li><i class="fas fa-phone"></i> <a href="tel:0617873439">(061) 7873439</a></li>
+                        <li><i class="fab fa-whatsapp"></i> <a href="https://wa.me/6282365652401" target="_blank">+62 823-6565-2401</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Halaman</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html"><i class="fas fa-chevron-right"></i> Beranda</a></li>
+                        <li><a href="kalkulator.html"><i class="fas fa-chevron-right"></i> Kalkulator Skor</a></li>
+                        <li><a href="index.html#faq"><i class="fas fa-chevron-right"></i> FAQ</a></li>
+                        <li><a href="feedback.html"><i class="fas fa-chevron-right"></i> Feedback</a></li>
+                        <li><a href="download.html"><i class="fas fa-chevron-right"></i> Download</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">&copy; 2026 BRIDA Kota Medan - Klinik Pelayanan Inovasi. Seluruh Hak Cipta Dilindungi.</div>
+        </div>
+    </footer>
+
+    <script>
+    // ===== TAB SWITCHING =====
+    const tabs = document.querySelectorAll('.dl-tab');
+    const sections = document.querySelectorAll('.dl-section');
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const target = tab.dataset.tab;
+            tabs.forEach(t => t.classList.remove('active'));
+            sections.forEach(s => s.classList.remove('active'));
+            tab.classList.add('active');
+            document.getElementById('sec-' + target).classList.add('active');
+            document.getElementById('dlSearch').value = '';
+            filterFiles();
+        });
+    });
+
+    // ===== HANDLE URL HASH (deep link from dropdown) =====
+    function handleHash() {
+        const hash = window.location.hash.replace('#', '');
+        if (['modul','pengumuman','template'].includes(hash)) {
+            tabs.forEach(t => t.classList.remove('active'));
+            sections.forEach(s => s.classList.remove('active'));
+            document.getElementById('tab-' + hash).classList.add('active');
+            document.getElementById('sec-' + hash).classList.add('active');
+        }
+    }
+    window.addEventListener('hashchange', handleHash);
+    handleHash();
+
+    // ===== SEARCH FILTER =====
+    function filterFiles() {
+        const q = document.getElementById('dlSearch').value.toLowerCase();
+        document.querySelectorAll('.dl-section.active .dl-file-card').forEach(card => {
+            const name = card.getAttribute('data-name').toLowerCase();
+            const desc = card.querySelector('.dl-file-desc')?.textContent.toLowerCase() || '';
+            card.style.display = (name.includes(q) || desc.includes(q)) ? 'flex' : 'none';
+        });
+    }
+    </script>
+
+</body>
+</html>

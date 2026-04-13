@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - Klinik Pelayanan Inovasi</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <style>
+        body { background: var(--bg-section-alt); }
+        .page-wrap {
+            max-width: 780px; margin: 0 auto;
+            padding: calc(60px + 2.5rem) clamp(1rem,4vw,2rem) 3rem;
+        }
+        .page-title {
+            text-align: center; margin-bottom: 2.5rem;
+        }
+        .page-title h1 {
+            font-size: clamp(1.8rem,4vw,2.4rem); font-weight: 800;
+            color: var(--text-dark); margin-bottom: 0.5rem;
+        }
+        .page-title p { color: var(--text-light); font-size: 0.95rem; }
+
+        .faq-list { display: flex; flex-direction: column; gap: 0.6rem; }
+
+        .faq-item {
+            background: var(--bg-white);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+            transition: var(--transition);
+        }
+        .faq-item:hover { box-shadow: var(--shadow-card); }
+
+        .faq-q {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 1.1rem 1.25rem; cursor: pointer; gap: 1rem;
+            user-select: none;
+        }
+        .faq-q h3 {
+            font-size: 0.92rem; font-weight: 600; color: var(--text-dark); margin: 0;
+            flex: 1;
+        }
+        .faq-q .faq-icon {
+            width: 28px; height: 28px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(14,165,233,0.08); color: var(--accent-1);
+            font-size: 0.7rem; flex-shrink: 0;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+        .faq-item.open .faq-q .faq-icon {
+            transform: rotate(180deg);
+            background: var(--accent-1); color: #fff;
+        }
+
+        .faq-a {
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.35s cubic-bezier(0.4,0,0.2,1);
+        }
+        .faq-item.open .faq-a { max-height: 400px; }
+
+        .faq-a-inner {
+            padding: 0 1.25rem 1.25rem;
+            font-size: 0.88rem; color: var(--text-body); line-height: 1.7;
+        }
+        .faq-a-inner a { color: var(--accent-1); font-weight: 500; }
+
+        .faq-num {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 24px; height: 24px; border-radius: 6px;
+            background: rgba(14,165,233,0.08); color: var(--accent-2);
+            font-size: 0.65rem; font-weight: 700; margin-right: 0.65rem; flex-shrink: 0;
+        }
+        .faq-q { display: flex; align-items: center; }
+        .faq-q h3 { display: flex; align-items: center; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="Media/logo-medan.gif" alt="Logo Pemko" class="logo-img">
+            <img src="Media/Brida logo.png" alt="Logo BRIDA" class="logo-img">
+            <span>IGA<strong>Clinic</strong></span>
+        </div>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html">Beranda</a></li>
+            <li><a href="index.html#indikator"><i class="fas fa-th-list"></i> Indikator</a></li>
+            <li><a href="faq.html"><i class="fas fa-circle-question"></i> FAQ</a></li>
+            <li><a href="feedback.html"><i class="fas fa-comment-dots"></i> Feedback</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" onclick="event.preventDefault(); this.parentElement.classList.toggle('open')"><i class="fas fa-download"></i> Download <i class="fas fa-chevron-down" style="font-size:0.6rem;margin-left:0.2rem"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a href="downloads/SOP_IGA.pdf" target="_blank"><i class="fas fa-file-pdf"></i> SOP</a></li>
+                    <li><a href="downloads/Modul_IGA.pdf" target="_blank"><i class="fas fa-book"></i> Modul</a></li>
+                    <li><a href="downloads/Pengumuman_IGA.pdf" target="_blank"><i class="fas fa-bullhorn"></i> Pengumuman</a></li>
+                    <li><a href="downloads/Template_Bukti_Dukung.xlsx" target="_blank"><i class="fas fa-file-excel"></i> Template Bukti Dukung</a></li>
+                </ul>
+            </li>
+        </ul>
+        <div class="hamburger" onclick="document.getElementById('navLinks').classList.toggle('active')">
+            <span></span><span></span><span></span>
+        </div>
+        <a href="kalkulator.html" class="btn" style="background:var(--accent-3);color:#fff;"><i class="fas fa-calculator"></i> Kalkulator</a>
+    </nav>
+
+    <div class="page-wrap">
+        <div class="page-title">
+            <h1><i class="fas fa-circle-question" style="color:var(--accent-1)"></i> FAQ</h1>
+            <p>Pertanyaan yang sering diajukan seputar IGA Award dan Klinik Pelayanan Inovasi</p>
+        </div>
+
+        <div class="faq-list" id="faqList">
+            <div class="faq-item">
+                <div class="faq-q" onclick="toggleFaq(this)">
+                    <h3><span class="faq-num">1</span>Apa itu IGA Award?</h3>
+                    <div class="faq-icon"><i class="fas fa-chevron-down"></i></div>
+                </div>
+                <div class="faq-a"><div class="faq-a-inner">
+                    IGA (Innovative Government Award) adalah penghargaan dari Kementerian Dalam Negeri kepada pemerintah daerah yang berhasil menerapkan inovasi dalam penyelenggaraan pemerintahan. Penilaian dilakukan berdasarkan Indeks Inovasi Daerah (IID) yang mengukur sejauh mana daerah berinovasi.
+                </div></div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-q" onclick="toggleFaq(this)">
+                    <h3><span class="faq-num">2</span>Apa saja indikator yang dinilai?</h3>
+                    <div class="faq-icon"><i class="fas fa-chevron-down"></i></div>
+                </div>
+                <div class="faq-a"><div class="faq-a-inner">
+                    Penilaian satuan inovasi daerah terdiri dari 20 indikator (Indikator 16-35) yang mencakup aspek Infrastruktur, Output Pengetahuan dan Teknologi, Kecepatan Bisnis Proses, Kecanggihan Produk, serta Jumlah Inovasi dan Hasil Kreatif. Total skor maksimal adalah <strong>111 poin</strong>.
+                </div></div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-q" onclick="toggleFaq(this)">
+                    <h3><span class="faq-num">3</span>Bagaimana cara menghitung skor inovasi?</h3>
+                    <div class="faq-icon"><i class="fas fa-chevron-down"></i></div>
+                </div>
+                <div class="faq-a"><div class="faq-a-inner">
+                    Setiap indikator memiliki 3 parameter (tingkat pencapaian). Skor dihitung dengan rumus: <strong>Parameter (1, 2, atau 3) × Bobot Indikator</strong>. Gunakan <a href="kalkulator.html">Kalkulator Skor</a> kami untuk menghitung estimasi skor secara otomatis.
+                </div></div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-q" onclick="toggleFaq(this)">
+                    <h3><span class="faq-num">4</span>Apa itu Klinik Pelayanan Inovasi?</h3>
+                    <div class="faq-icon"><i class="fas fa-chevron-down"></i></div>
+                </div>
+                <div class="faq-a"><div class="faq-a-inner">
+                    Klinik Pelayanan Inovasi adalah layanan pendampingan dari BRIDA Kota Medan untuk membantu perangkat daerah dalam menyusun dan melengkapi dokumen inovasi. Layanan meliputi konsultasi tatap muka, pendampingan virtual, review dokumen & evidensi, coaching clinic, dan layanan hotline 24/7.
+                </div></div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-q" onclick="toggleFaq(this)">
+                    <h3><span class="faq-num">5</span>Dokumen apa saja yang perlu disiapkan?</h3>
+                    <div class="faq-icon"><i class="fas fa-chevron-down"></i></div>
+                </div>
+                <div class="faq-a"><div class="faq-a-inner">
+                    Setiap indikator memerlukan bukti dukung yang berbeda, seperti SK/regulasi, laporan kegiatan, dokumentasi foto/video, laporan monev, dan bukti replikasi. Lihat detail per indikator di bagian <a href="index.html#indikator">Klinik Pelayanan Inovasi</a> pada halaman utama.
+                </div></div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-q" onclick="toggleFaq(this)">
+                    <h3><span class="faq-num">6</span>Kapan deadline pengumpulan bukti dukung?</h3>
+                    <div class="faq-icon"><i class="fas fa-chevron-down"></i></div>
+                </div>
+                <div class="faq-a"><div class="faq-a-inner">
+                    Deadline pengumpulan bukti dukung mengikuti jadwal yang ditetapkan oleh Kementerian Dalam Negeri. Pantau informasi terbaru melalui halaman <strong>Pengumuman</strong> di menu Download atau hubungi kami via WhatsApp.
+                </div></div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-q" onclick="toggleFaq(this)">
+                    <h3><span class="faq-num">7</span>Bagaimana cara menghubungi tim Klinik?</h3>
+                    <div class="faq-icon"><i class="fas fa-chevron-down"></i></div>
+                </div>
+                <div class="faq-a"><div class="faq-a-inner">
+                    Anda dapat menghubungi kami melalui WhatsApp di nomor <a href="https://wa.me/6282365652401" target="_blank">+62 823-6565-2401</a>. Layanan hotline tersedia 24/7 untuk pertanyaan darurat teknis sistem.
+                </div></div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-q" onclick="toggleFaq(this)">
+                    <h3><span class="faq-num">8</span>Apakah ada template bukti dukung yang bisa diunduh?</h3>
+                    <div class="faq-icon"><i class="fas fa-chevron-down"></i></div>
+                </div>
+                <div class="faq-a"><div class="faq-a-inner">
+                    Ya, kami menyediakan template bukti dukung yang bisa diunduh melalui menu <strong>Download → Template Bukti Dukung</strong> di navbar. Template ini membantu menyeragamkan format dokumen yang dibutuhkan untuk setiap indikator.
+                </div></div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <div class="footer-logo"><img src="Media/logo-medan.gif" alt="Logo" class="footer-logo-img"><img src="Media/Brida logo.png" alt="Logo" class="footer-logo-img"><span>IGA<strong>Clinic</strong></span></div>
+                    <div class="footer-org">Badan Riset dan Inovasi Daerah Kota Medan</div>
+                    <p>Platform pendampingan dan konsultasi inovasi daerah terpadu.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Kontak</h4>
+                    <ul class="footer-contact">
+                        <li><i class="fas fa-map-marker-alt"></i> Jl. Jenderal Besar A.H. Nasution No. 32 Medan</li>
+                        <li><i class="fas fa-envelope"></i> <a href="mailto:brida@medan.go.id">brida@medan.go.id</a></li>
+                        <li><i class="fas fa-phone"></i> <a href="tel:0617873439">(061) 7873439</a></li>
+                        <li><i class="fab fa-whatsapp"></i> <a href="https://wa.me/6282365652401" target="_blank">+62 823-6565-2401</a></li>
+                    </ul>
+                    <div class="footer-social">
+                        <a href="#" class="fb"><i class="fab fa-facebook-f"></i></a><a href="#" class="tw"><i class="fab fa-twitter"></i></a><a href="#" class="ig"><i class="fab fa-instagram"></i></a><a href="#" class="yt"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Halaman</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html"><i class="fas fa-chevron-right"></i> Beranda</a></li>
+                        <li><a href="kalkulator.html"><i class="fas fa-chevron-right"></i> Kalkulator</a></li>
+                        <li><a href="faq.html"><i class="fas fa-chevron-right"></i> FAQ</a></li>
+                        <li><a href="feedback.html"><i class="fas fa-chevron-right"></i> Feedback</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">&copy; 2026 BRIDA Kota Medan - Klinik Pelayanan Inovasi.</div>
+        </div>
+    </footer>
+
+    <script>
+    function toggleFaq(el) {
+        const item = el.parentElement;
+        const wasOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+        if (!wasOpen) item.classList.add('open');
+    }
+    </script>
+</body>
+</html>
